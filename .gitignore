@@ -1,0 +1,18 @@
+# 人脸训练数据（隐私）
+my_face/
+
+# 训练好的模型（体积大）
+*.yml
+
+# 运行日志
+*.log
+
+# Python 缓存
+__pycache__/
+*.pyc
+*.pyo
+
+# 打包输出
+dist/
+build/
+*.spec
