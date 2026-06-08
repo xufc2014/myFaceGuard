@@ -104,6 +104,45 @@ FaceGuard/
 
 ---
 
+## 打包成 exe
+
+使用虚拟环境中的 PyInstaller 打包，打包前确保虚拟环境已安装所有依赖。
+
+### 安装依赖（首次）
+
+```bash
+I:\plane_game\games\Scripts\pip.exe install opencv-python opencv-contrib-python PyQt6 pillow pyinstaller
+```
+
+### 执行打包
+
+在项目根目录执行：
+
+```bash
+"I:\plane_game\games\Scripts\pyinstaller.exe" --noconfirm --onedir --windowed --name "FaceGuard" --add-data "I:\plane_game\games\lib\site-packages\cv2\data;cv2\data" test_recognize_me.py
+```
+
+打包完成后输出目录为 `dist\FaceGuard\`。
+
+### 打包后的准备
+
+将 `my_face_model.yml` 复制到 `dist\FaceGuard\` 目录，与 `FaceGuard.exe` 放在一起：
+
+```
+dist\FaceGuard\
+├── FaceGuard.exe        ← 双击运行
+├── my_face_model.yml    ← 必须复制过来
+└── _internal\           ← 依赖库，勿删
+```
+
+### 注意事项
+
+- 每次修改代码后需重新打包，并重新复制 `my_face_model.yml`
+- 重新打包会自动覆盖 `dist\FaceGuard\`，无需手动删除
+- `my_face/` 和 `my_face_model.yml` 已加入 `.gitignore`，不会上传到 git
+
+---
+
 ## 常见问题
 
 **Q：启动后一直显示"已离开"，无法识别**  
