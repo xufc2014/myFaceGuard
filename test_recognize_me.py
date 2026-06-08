@@ -87,7 +87,7 @@ class Worker(QThread):
                 continue
 
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            faces = self.face_cascade.detectMultiScale(gray, 1.2, 6)
+            faces = self.face_cascade.detectMultiScale(gray, 1.1, 5, minSize=(40, 40))
             has_me = False
 
             if len(faces) > 0:
@@ -152,6 +152,17 @@ class Worker(QThread):
 
             # ========== 摄像头窗口 ==========
             if self.config["show_window"]:
+                if len(faces) > 0:
+                    x, y, w, h = faces[0]
+                    if has_me:
+                        color = (0, 255, 0)    # 绿色：识别为本人
+                        label_text = "Me"
+                    else:
+                        color = (0, 165, 255)  # 橙色：检测到人脸但不确定
+                        label_text = "Unknown"
+                    cv2.rectangle(frame, (x, y), (x + w, y + h), color, 2)
+                    cv2.putText(frame, label_text, (x, y - 8),
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.7, color, 2)
                 cv2.imshow("FaceGuard Camera", frame)
                 if cv2.waitKey(1) & 0xFF == ord("q"):
                     break
